@@ -637,6 +637,14 @@ void mgos_ili9341_display_init()
   ret = disp_select();
   assert(ret==ESP_OK);
 
+  if (USE_ILI9341_HW_RESET==1) {
+    //Reset the display
+    gpio_set_level(mgos_sys_config_get_ili9341_rst_pin(), 0);
+    vTaskDelay(20 / portTICK_RATE_MS);
+    gpio_set_level(mgos_sys_config_get_ili9341_rst_pin(), 1);
+    vTaskDelay(150 / portTICK_RATE_MS);
+  }
+
   commandList(disp_spi, ILI9341_init);
 
   ret = disp_deselect();

@@ -62,7 +62,7 @@ void backlight_keepalive() {
   if (backlight_keepalive_timer_id)
     mgos_clear_timer(backlight_keepalive_timer_id);
   backlight_keepalive_timer_id = mgos_set_timer(mgos_sys_config_get_app_inactivity_timeout()*1000, false, backlight_keepalive_cb, NULL);
-  backlight_set(1.0, 0);
+  backlight_set(0.7, 0);
 }
 
 bool backlight_active() {

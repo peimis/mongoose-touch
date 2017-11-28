@@ -22,6 +22,9 @@ includes:
 filesystem:
   - fs
 
+cdefs:
+  USE_ILI9341_HW_RESET: 0
+
 config_schema:
   - ["sys.esp32_adc_vref", 3300] # ADC Vref is 3.3V
   - ["wifi.ap.enable", false]
@@ -35,7 +38,7 @@ config_schema:
   - ["app.hostname", "s", {title: "Device hostname"}]
   - ["app.hostname", "Mongoose Touch"]
   - ["app.backlight_pin", "i", {title: "Backlight pin"}]
-  - ["app.backlight_pin", 22]
+  - ["app.backlight_pin", 21]
   - ["app.inactivity_timeout", "i", {title: "Inactivity timeout in seconds"}]
   - ["app.inactivity_timeout", 10]
   - ["app.battery_calibration", i, {title: "Battery ADC value at 4000mV"}]
@@ -54,7 +57,8 @@ libs:
   - origin: https://github.com/mongoose-os-libs/adc
   - origin: libs/lobo-spi
   - origin: libs/ili9341
-  - origin: libs/stmpe610
+#  - origin: libs/stmpe610
+  - origin: libs/xpt2046
 
 # Used by the mos tool to catch mos binaries incompatible with this file format
 manifest_version: 2017-05-18

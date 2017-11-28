@@ -23,7 +23,7 @@
 #define DEFAULT_TFT_DISPLAY_HEIGHT  320
 #define DISP_COLOR_BITS_24          0x66
 #define DEFAULT_GAMMA_CURVE         0
-#define DEFAULT_SPI_CLOCK           26000000
+#define DEFAULT_SPI_CLOCK           20000000
 #define TFT_RGB_BGR                 0x08
 
 // ---------------------------------------------------------
@@ -131,9 +131,13 @@ typedef struct __attribute__((__packed__)) {
 // Initialization sequence for ILI7341
 // ====================================
 static const uint8_t ILI9341_init[] = {
-  24,                   					        // 24 commands in list
-  TFT_CMD_SWRESET, TFT_CMD_DELAY,					//  1: Software reset, no args, w/delay
-  250,												//     200 ms delay
+  #if (USE_ILI9341_HW_RESET == 1)
+  23,
+  #else
+  24,                                     // 24 commands in list
+  TFT_CMD_SWRESET, TFT_CMD_DELAY,         //  1: Software reset, no args, w/delay
+  250,                        //     200 ms delay
+  #endif
   TFT_CMD_POWERA, 5, 0x39, 0x2C, 0x00, 0x34, 0x02,
   TFT_CMD_POWERB, 3, 0x00, 0XC1, 0X30,
   0xEF, 3, 0x03, 0x80, 0x02,

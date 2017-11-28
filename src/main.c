@@ -4,7 +4,7 @@
 #include "mgos.h"
 #include "mgos_pwm.h"
 #include "tft.h"
-#include "stmpe610.h"
+#include "xpt2046.h"
 #include "mongoose-touch.h"
 
 struct screen_t *screen = NULL;
@@ -13,7 +13,7 @@ static long map(long x, long in_min, long in_max, long out_min, long out_max) {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-static void touch_handler(struct mgos_stmpe610_event_data *ed) {
+static void touch_handler(struct mgos_xpt2046_event_data *ed) {
   uint16_t x, y;
   struct widget_t *widget;
 
@@ -57,7 +57,7 @@ void tft_demo(void)
   struct widget_t *w;
 
   mgos_ili9341_setRotation(mgos_sys_config_get_tft_orientation());
-  mgos_stmpe610_set_rotation(mgos_sys_config_get_tft_orientation());
+  mgos_xpt2046_set_rotation(mgos_sys_config_get_tft_orientation());
   mgos_ili9341_setGammaCurve(DEFAULT_GAMMA_CURVE);
   mgos_ili9341_setFont(DEFAULT_FONT, NULL);
 
@@ -102,7 +102,7 @@ void tft_demo(void)
 
 enum mgos_app_init_result mgos_app_init(void)
 {
-  mgos_stmpe610_set_handler(touch_handler);
+  mgos_xpt2046_set_handler(touch_handler);
   backlight_init();
 
   tft_demo();

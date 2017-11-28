@@ -2324,7 +2324,16 @@ color_t *mgos_ili9341_get_bg(void)
 bool mgos_ili9341_init(void) {
   esp_err_t ret;
 
-  max_rdclock = 8000000;
+  max_rdclock = 6000000;
+
+  _width = mgos_sys_config_get_ili9341_width();
+  _height = mgos_sys_config_get_ili9341_height();
+
+  if (-1 != mgos_sys_config_get_ili9341_rst_pin()) {
+    gpio_pad_select_gpio(mgos_sys_config_get_ili9341_rst_pin());
+    gpio_set_direction(mgos_sys_config_get_ili9341_rst_pin(), GPIO_MODE_OUTPUT);
+    gpio_set_level(mgos_sys_config_get_ili9341_rst_pin(), 1);
+  }
 
   gpio_pad_select_gpio(mgos_sys_config_get_ili9341_cs_pin());
   gpio_set_direction(mgos_sys_config_get_ili9341_cs_pin(), GPIO_MODE_OUTPUT);
